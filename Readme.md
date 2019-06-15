@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Sergey Razgildeev](https://up.htmlacademy.ru/javascript/17/user/621687).
-* Наставник: `Неизвестно`.
+* Наставник: `Без наставника`.
 
 ---
 

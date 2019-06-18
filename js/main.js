@@ -84,3 +84,11 @@ var getArrayOfPhotos = function () {
 
   return arrayOfPhotos;
 };
+
+var getPictureElement = function (photoCard) {
+  var pictureElement = pictureTemplate.cloneNode(true);
+  pictureElement.querySelector('.picture__img').src = photoCard.url;
+  pictureElement.querySelector('.picture__likes').textContent = photoCard.likes;
+  pictureElement.querySelector('.picture__comments').textContent = photoCard.comments.length;
+
+}

@@ -92,6 +92,7 @@ var getPictureElement = function (photoCard) {
   pictureElement.querySelector('.picture__likes').textContent = photoCard.likes;
   pictureElement.querySelector('.picture__comments').textContent = photoCard.comments.length;
 
+  return pictureElement;
 };
 
 var allPohotos = getArrayOfPhotos();

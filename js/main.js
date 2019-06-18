@@ -1,5 +1,6 @@
 'use strict';
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+var pictures = document.querySelector('.pictures');
 var commentsList = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -23,9 +24,9 @@ var randomNumber = function (min, max) {
 };
 
 // Функция возвращает случайный элемент массива
-var getRandomItem = function (arr) {
+/* var getRandomItem = function (arr) {
   return arr[randomNumber(0, arr.length)];
-};
+}; */
 
 var getCommentsMessege = function (arr) {
   var copyArr = arr.concat();
@@ -91,4 +92,13 @@ var getPictureElement = function (photoCard) {
   pictureElement.querySelector('.picture__likes').textContent = photoCard.likes;
   pictureElement.querySelector('.picture__comments').textContent = photoCard.comments.length;
 
+};
+
+var allPohotos = getArrayOfPhotos();
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < allPohotos.length; i++) {
+  fragment.appendChild(getPictureElement(allPohotos[i]));
 }
+pictures.appendChild(fragment);
+
+

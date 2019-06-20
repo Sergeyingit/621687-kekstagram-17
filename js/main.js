@@ -102,4 +102,106 @@ for (var i = 0; i < allPohotos.length; i++) {
 }
 pictures.appendChild(fragment);
 
+// 2.1
 
+var uploadImageForm = document.querySelector('.img-upload');
+var uploadFile = uploadImageForm.querySelector('#upload-file');
+var editForm = uploadImageForm.querySelector('.img-upload__overlay');
+var closeButton = uploadImageForm.querySelector('#upload-cancel');
+var ESC_KEYCODE = 27;
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  editForm.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  editForm.classList.add('hidden');
+  uploadFile.value = '';
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+uploadFile.addEventListener('change', function () {
+  openPopup();
+});
+
+closeButton.addEventListener('click', function () {
+  closePopup();
+});
+
+// 2.2
+var effectLevelSlider = document.querySelector('.effect-level');
+var pin = effectLevelSlider.querySelector('.effect-level__pin');
+
+//var effectLevelScale = effectLevelSlider.querySelector('.effect-level__line');
+
+var effectLevel = effectLevelSlider.querySelector('.effect-level__value');
+//var PIN_SIZE = 18;
+var effectsToggles = document.querySelectorAll('.effects__radio');
+//var preview = document.querySelector('.img-upload__preview');
+var photoPreview = document.querySelector('.img-upload__preview img');
+
+var resetEffect = function () {
+  effectLevel.setAttribute('value', 100);
+};
+// var changeValueFilter = function () {
+
+//   effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
+// }
+
+
+// pin.addEventListener('mouseup', function (evt) {
+//   // Читаю расположение пина относительно родительского блока ( шкалы)
+//   // Читаю длину шкалы ( мах значение)
+//   // записываю
+//   var pinPosition = evt.target.offsetLeft;
+//   var maxEffectLevel = effectLevelScale.offsetWidth;
+//   effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
+// });
+
+// Функция назначения классов в соответствии с эффектом
+var setClassEffects = function (evt) {
+  photoPreview.className = '';
+  effectLevelSlider.classList.remove('hidden');
+  resetEffect();
+  var effect = evt.target.value;
+  photoPreview.classList.add('effects__preview--' + effect);
+
+  if (effect === 'none') {
+    effectLevelSlider.classList.add('hidden');
+  }
+  // if (effect === 'none') {
+  //   photoPreview.classList.add('effects__preview--none');
+  //   effectLevelSlider.classList.add('hidden');
+  // } else if (effect === 'chrome') {
+  //   photoPreview.classList.add('effects__preview--chrome');
+  //   effectLevelSlider.classList.remove('hidden');
+  // } else if (effect === 'sepia') {
+  //   photoPreview.classList.add('effects__preview--sepia');
+  //   effectLevelSlider.classList.remove('hidden');
+  // } else if (effect === 'marvin') {
+  //   photoPreview.classList.add('effects__preview--marvin');
+  //   effectLevelSlider.classList.remove('hidden');
+  // } else if (effect === 'phobos') {
+  //   photoPreview.classList.add('effects__preview--phobos');
+  //   effectLevelSlider.classList.remove('hidden');
+  // } else if (effect === 'heat') {
+  //   photoPreview.classList.add('effects__preview--heat');
+  //   effectLevelSlider.classList.remove('hidden');
+  // }
+};
+
+var clickEffectToggle = function (effectsToggle) {
+  effectsToggle.addEventListener('change', setClassEffects);
+};
+
+for (var j = 0; j < effectsToggles.length; j++) {
+  var effectsToggle = effectsToggles[j];
+  clickEffectToggle(effectsToggle);
+}

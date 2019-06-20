@@ -102,7 +102,7 @@ for (var i = 0; i < allPohotos.length; i++) {
 }
 pictures.appendChild(fragment);
 
-// 2.1
+// 4.1.1
 
 var uploadImageForm = document.querySelector('.img-upload');
 var uploadFile = uploadImageForm.querySelector('#upload-file');
@@ -135,7 +135,7 @@ closeButton.addEventListener('click', function () {
   closePopup();
 });
 
-// 2.2
+// 4.1.2
 var effectLevelSlider = document.querySelector('.effect-level');
 var pin = effectLevelSlider.querySelector('.effect-level__pin');
 
@@ -205,3 +205,15 @@ for (var j = 0; j < effectsToggles.length; j++) {
   var effectsToggle = effectsToggles[j];
   clickEffectToggle(effectsToggle);
 }
+
+// 4.2
+
+var commentInput = document.querySelector('.text__description');
+
+commentInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+commentInput.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+});

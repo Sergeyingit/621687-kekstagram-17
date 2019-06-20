@@ -137,16 +137,19 @@ closeButton.addEventListener('click', function () {
 
 // 2.2
 var effectLevelSlider = document.querySelector('.effect-level');
-//var pin = effectLevelSlider.querySelector('.effect-level__pin');
+var pin = effectLevelSlider.querySelector('.effect-level__pin');
 
 //var effectLevelScale = effectLevelSlider.querySelector('.effect-level__line');
 
-//var effectLevel = effectLevelSlider.querySelector('.effect-level__value');
+var effectLevel = effectLevelSlider.querySelector('.effect-level__value');
 //var PIN_SIZE = 18;
 var effectsToggles = document.querySelectorAll('.effects__radio');
 //var preview = document.querySelector('.img-upload__preview');
 var photoPreview = document.querySelector('.img-upload__preview img');
 
+var resetEffect = function () {
+  effectLevel.setAttribute('value', 100);
+};
 // var changeValueFilter = function () {
 
 //   effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
@@ -166,6 +169,7 @@ var photoPreview = document.querySelector('.img-upload__preview img');
 var setClassEffects = function (evt) {
   photoPreview.className = '';
   effectLevelSlider.classList.remove('hidden');
+  resetEffect();
   var effect = evt.target.value;
   photoPreview.classList.add('effects__preview--' + effect);
 

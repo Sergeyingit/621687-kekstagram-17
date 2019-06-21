@@ -162,28 +162,99 @@ var effectLevelScale = effectLevelSlider.querySelector('.effect-level__line');
 var effectLevel = effectLevelSlider.querySelector('.effect-level__value');
 // var PIN_SIZE = 18;
 var effectsToggles = document.querySelectorAll('.effects__radio');
-// var preview = document.querySelector('.img-upload__preview');
+var effectDepth = document.querySelector('.effect-level__depth');
 var photoPreview = document.querySelector('.img-upload__preview img');
+var pinPositionDefault = 453;
+var effectDepthDefault = 453;
 
 // функция сбрасывает значение эффектов к дефолтным
 var resetEffect = function () {
   effectLevel.setAttribute('value', 100);
-// console.log(effectLevel.value);
+  pin.style.left = pinPositionDefault + 'px';
+  effectDepth.style.width = effectDepthDefault + 'px';
+  photoPreview.style = '';
+// // console.log(effectLevel.value);
 };
-// var changeValueFilter = function () {
-
-//   effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
-// }
 
 
-pin.addEventListener('mouseup', function (evt) {
-  // Читаю расположение пина относительно родительского блока ( шкалы)
-  // Читаю длину шкалы ( мах значение)
-  // записываю
+
+// Читаю расположение пина относительно родительского блока ( шкалы)
+// Читаю длину шкалы ( мах значение)
+// записываю
+// Вызываю функцию изменения глубины эффекта с значением расположения ползунка в %
+var pinCoords = function (evt) {
   var pinPosition = evt.target.offsetLeft;
   var maxEffectLevel = effectLevelScale.offsetWidth;
-  effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
 
+  effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
+  definesDepth(effectLevel.value);
+};
+
+
+// Функция изменения глубины эффекта
+// определяю какой эффект применён к фото в данный момент по классу
+// у списка классов единственное значение, по этому [0]
+var definesDepth = function (value) {
+  var effect = photoPreview.classList[0];
+  var property;
+  if (effect === 'effects__preview--chrome') {
+    property = 'grayscale';
+    value = value / 100;
+  } else if (effect === 'effects__preview--sepia') {
+    property = 'sepia';
+    value = value / 100;
+  } else if (effect === 'effects__preview--marvin') {
+    property = 'invert';
+    value = value + '%';
+  } else if (effect === 'effects__preview--phobos') {
+    property = 'blur';
+    value = value / 100 * 3 + 'px';
+  } else if (effect === 'effects__preview--heat') {
+    property = 'brightness';
+    value = value / 100 * 3;
+  }
+  photoPreview.style.cssText = 'filter: ' + property + '(' + value + ')';
+};
+
+
+// Слушаю пин
+pin.addEventListener('mousedown', function (evt) {
+
+  var startCoords = {
+    x: evt.clientX
+  };
+
+  var onMouseMove = function (moveEvt) {
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX
+    };
+
+    startCoords = {
+      x: moveEvt.clientX
+    };
+
+
+    var dragX = (pin.offsetLeft - shift.x);
+    if (dragX <= 0) {
+      dragX = 0;
+    } else if (dragX >= effectLevelScale.offsetWidth) {
+      dragX = effectLevelScale.offsetWidth;
+    }
+    pin.style.left = dragX + 'px';
+    effectDepth.style.width = dragX + 'px';
+    pinCoords(moveEvt);
+  };
+
+  var onMouseUp = function (upEvt) {
+    pinCoords(upEvt);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 // Функция назначения классов в соответствии с эффектом
@@ -196,25 +267,6 @@ var setClassEffects = function (evt) {
   if (effect === 'none') {
     effectLevelSlider.classList.add('hidden');
   }
-  // if (effect === 'none') {
-  //   photoPreview.classList.add('effects__preview--none');
-  //   effectLevelSlider.classList.add('hidden');
-  // } else if (effect === 'chrome') {
-  //   photoPreview.classList.add('effects__preview--chrome');
-  //   effectLevelSlider.classList.remove('hidden');
-  // } else if (effect === 'sepia') {
-  //   photoPreview.classList.add('effects__preview--sepia');
-  //   effectLevelSlider.classList.remove('hidden');
-  // } else if (effect === 'marvin') {
-  //   photoPreview.classList.add('effects__preview--marvin');
-  //   effectLevelSlider.classList.remove('hidden');
-  // } else if (effect === 'phobos') {
-  //   photoPreview.classList.add('effects__preview--phobos');
-  //   effectLevelSlider.classList.remove('hidden');
-  // } else if (effect === 'heat') {
-  //   photoPreview.classList.add('effects__preview--heat');
-  //   effectLevelSlider.classList.remove('hidden');
-  // }
 };
 
 var clickEffectToggle = function (effectsToggle) {

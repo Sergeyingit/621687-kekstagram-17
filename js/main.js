@@ -137,7 +137,7 @@ closeButton.addEventListener('click', function () {
 
 // 4.1.2
 
-//zoom
+// zoom
 
 var zoomValue = document.querySelector('.scale__control--value');
 var zoomControlsSmaller = document.querySelector('.scale__control--smaller');
@@ -160,15 +160,15 @@ var pin = effectLevelSlider.querySelector('.effect-level__pin');
 var effectLevelScale = effectLevelSlider.querySelector('.effect-level__line');
 
 var effectLevel = effectLevelSlider.querySelector('.effect-level__value');
-//var PIN_SIZE = 18;
+// var PIN_SIZE = 18;
 var effectsToggles = document.querySelectorAll('.effects__radio');
-//var preview = document.querySelector('.img-upload__preview');
+// var preview = document.querySelector('.img-upload__preview');
 var photoPreview = document.querySelector('.img-upload__preview img');
 
 // функция сбрасывает значение эффектов к дефолтным
 var resetEffect = function () {
   effectLevel.setAttribute('value', 100);
-  console.log(effectLevel.value);
+// console.log(effectLevel.value);
 };
 // var changeValueFilter = function () {
 

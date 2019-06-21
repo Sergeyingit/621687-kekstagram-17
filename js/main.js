@@ -102,7 +102,7 @@ for (var i = 0; i < allPohotos.length; i++) {
 }
 pictures.appendChild(fragment);
 
-// 2.1
+// 4.1.1
 
 var uploadImageForm = document.querySelector('.img-upload');
 var uploadFile = uploadImageForm.querySelector('#upload-file');
@@ -135,20 +135,40 @@ closeButton.addEventListener('click', function () {
   closePopup();
 });
 
-// 2.2
+// 4.1.2
+
+// zoom
+
+var zoomValue = document.querySelector('.scale__control--value');
+var zoomControlsSmaller = document.querySelector('.scale__control--smaller');
+var zoomControlsBigger = document.querySelector('.scale__control--bigger');
+var zoomStep = 25;
+
+zoomControlsSmaller.addEventListener('click', function () {
+  zoomValue.setAttribute('value', zoomValue.value += zoomStep + '%');
+});
+
+zoomControlsBigger.addEventListener('click', function () {
+  zoomValue.setAttribute('value', zoomValue.value -= zoomStep);
+});
+
+
+// filters
 var effectLevelSlider = document.querySelector('.effect-level');
 var pin = effectLevelSlider.querySelector('.effect-level__pin');
 
-//var effectLevelScale = effectLevelSlider.querySelector('.effect-level__line');
+var effectLevelScale = effectLevelSlider.querySelector('.effect-level__line');
 
 var effectLevel = effectLevelSlider.querySelector('.effect-level__value');
-//var PIN_SIZE = 18;
+// var PIN_SIZE = 18;
 var effectsToggles = document.querySelectorAll('.effects__radio');
-//var preview = document.querySelector('.img-upload__preview');
+// var preview = document.querySelector('.img-upload__preview');
 var photoPreview = document.querySelector('.img-upload__preview img');
 
+// функция сбрасывает значение эффектов к дефолтным
 var resetEffect = function () {
   effectLevel.setAttribute('value', 100);
+// console.log(effectLevel.value);
 };
 // var changeValueFilter = function () {
 
@@ -156,20 +176,20 @@ var resetEffect = function () {
 // }
 
 
-// pin.addEventListener('mouseup', function (evt) {
-//   // Читаю расположение пина относительно родительского блока ( шкалы)
-//   // Читаю длину шкалы ( мах значение)
-//   // записываю
-//   var pinPosition = evt.target.offsetLeft;
-//   var maxEffectLevel = effectLevelScale.offsetWidth;
-//   effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
-// });
+pin.addEventListener('mouseup', function (evt) {
+  // Читаю расположение пина относительно родительского блока ( шкалы)
+  // Читаю длину шкалы ( мах значение)
+  // записываю
+  var pinPosition = evt.target.offsetLeft;
+  var maxEffectLevel = effectLevelScale.offsetWidth;
+  effectLevel.setAttribute('value', Math.round(pinPosition * 100 / maxEffectLevel));
+
+});
 
 // Функция назначения классов в соответствии с эффектом
 var setClassEffects = function (evt) {
   photoPreview.className = '';
   effectLevelSlider.classList.remove('hidden');
-  resetEffect();
   var effect = evt.target.value;
   photoPreview.classList.add('effects__preview--' + effect);
 
@@ -198,10 +218,25 @@ var setClassEffects = function (evt) {
 };
 
 var clickEffectToggle = function (effectsToggle) {
-  effectsToggle.addEventListener('change', setClassEffects);
+  effectsToggle.addEventListener('change', function (evt) {
+    setClassEffects(evt);
+    resetEffect();
+  });
 };
 
 for (var j = 0; j < effectsToggles.length; j++) {
   var effectsToggle = effectsToggles[j];
   clickEffectToggle(effectsToggle);
 }
+
+// 4.2
+
+var commentInput = document.querySelector('.text__description');
+
+commentInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+commentInput.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+});

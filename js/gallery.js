@@ -12,10 +12,13 @@
   };
 
 
-  var allPohotos = window.data.getArrayOfPhotos();
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < allPohotos.length; i++) {
-    fragment.appendChild(getPictureElement(allPohotos[i]));
-  }
-  pictures.appendChild(fragment);
+  var loadHandler = function (allPohotos) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < allPohotos.length; i++) {
+      fragment.appendChild(getPictureElement(allPohotos[i]));
+    }
+    pictures.appendChild(fragment);
+  };
+
+  window.backend.load(loadHandler);
 })();
